@@ -1,0 +1,1 @@
+<input type="button" value="Load Article" onclick="Dom.fill()" data-url="article" data-into="#article" data-get="n=3">

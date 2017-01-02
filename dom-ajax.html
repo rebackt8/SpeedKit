@@ -1,0 +1,31 @@
+<div id="toolbar">Toolbar: </div>
+<div id="article">{CONTENT-HERE}</div>
+
+<script>
+var t=document.getElementById('toolbar'),
+	x=new XMLHttpRequest,
+	y=new XMLHttpRequest,
+	go=function(u,g){
+		y.open('GET',u+".php?"+g,true);
+		y.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		y.send();
+	};
+
+
+x.addEventListener("load",function(){document.getElementById('toolbar').innerHTML+=this.response});
+x.open('GET',"dom-ajax.php",true); x.setRequestHeader("Content-type","application/x-www-form-urlencoded"); x.send();
+
+var Dom=new(function(){
+
+	this.fill=function(){
+		var e=event.target,
+			d=e.dataset,
+			u=d.url,
+			g=d.get,
+			t=document.querySelector(d.into);
+		y.addEventListener("load",function(){t.innerHTML=this.response});
+		(e.onclick=function(){go(u,g)})();
+	}
+
+});
+</script>

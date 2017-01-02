@@ -1,0 +1,31 @@
+<script type="text/javascript" src="RSA.js"></script>
+<script>
+
+var AJAX = new (function(){
+	if(!XMLHttpRequest)return;
+	function X(U,P,C,H){var x=Object.assign(new XMLHttpRequest(),{0:U+".php?",1:'',2:H});try{var m;for(var p in P){m=p.indexOf('-')===0?1:0;x[m]+=p.substring(m)+"="+encodeURIComponent(P[p])+"&"}}catch(e){}x.onload=function(){C(J(this.response),this)};return x}
+	
+	function S(x,t){x.open('POST',x[0]||'',true);x.timeout=t||0;for(var h in x[2]||{}){x.setRequestHeader(h,x[2][h]);}x.send(x[1]||'');}
+	function J(s){try{return JSON.parse(s)}catch(e){return s}}
+	this.simple=function(u,p,c){S(X(u,p,c))}
+});
+
+function testRSA(s){
+var C_C = new RSA(s),str1='quick brown fox',Cypher=C_C.encrypt(str1),C_S;
+console.log(s+' Client to Client: '+((C_C.decrypt(Cypher)===str1&&Cypher!==str1)?"SUCCESS":"FAIL"));
+	var S_C = new RSA(s),str2='big sexy cow',S_public;
+	AJAX.simple("ServerToClient",{pub:S_C.PUBLIC,str:str2,size:s},function(r1){
+		console.log(s+" Server to Client: "+(S_C.decrypt(r1.CYPHER)===str2?"SUCCESS":"FAIL"));
+		var C_S = new RSA(s,r1["PUBLIC_"+s]),str3='huge silver fish';
+		var encry=C_S.encrypt(str3);
+			AJAX.simple("ClientToServer",{cyph:encry,size:s},function(r2){
+				console.log(s+" Client to Server: "+(r2.DECYPHER===str3?"SUCCESS":"FAIL"));
+				window["C_C_"+s] = C_C;
+				window["C_S_"+s] = C_S;
+				window["S_C_"+s] = S_C;
+				if(s===512)testRSA(1024);
+			});
+	});
+}
+testRSA(512);
+</script>

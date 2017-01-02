@@ -1,0 +1,44 @@
+<script>
+function RSA(x){
+	var p=11, //can be any prime
+		q=13, //can be any prime | q =/= p
+		n=p*q,
+		phi=(p-1)*(q-1),
+		e=7, //65537 in RSA
+		d=modInv(e,phi);
+			
+	function gcd(a,b){
+		var x;
+		while(b) x=b, b=a%x, a=x;
+		return a
+	}
+	
+	if(gcd(e,phi) !== 1) return;
+
+	function modInv(a,b){
+		var q=[], s=[1,0], i=1, r, n;		
+		while(r=a%b) q.push( (a-r)/b ), a=b, b=r;
+		n=q.length;
+		while(n--) s[i]-=s[i=i^1]*q[n];
+		return s[i]
+	}
+	
+	var encrypted = modExp(x, e, n);
+		console.log("Encrypted: "+encrypted);
+	
+	var decrypted = modExp(encrypted, d, n);
+		console.log("Decrypted: "+decrypted);	//overflow rounding error!!!
+	
+	function modExp(base, exp, n){
+		var a=Math.abs(exp), l=Math.log2(a), b=a.toString(2), i=0, x=1, y=base, r;
+		while(0<l--){
+			y-=Math.round(y/n)*n;
+			if(b[i++]=='1') x*=y;
+			y*=y;
+		}
+		r = exp<0 ? modInv(x%n,n) : x%n;
+		return r<0 ? r-Math.floor(r/n)*n : r
+	}
+}
+RSA(3);
+</script>

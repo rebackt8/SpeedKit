@@ -1,0 +1,7 @@
+The JSEncrypt algorithm is extremely messy and inefficient.
+Goal:  Rewrite the algorithm starting from the basics, then adding the following:
+	b64 String->Integer conversion, then Integer->b64 String
+	Prime Number generator
+	Random Factors
+	Big Integer handler, with add, subtract, mult., divide...etc.
+	Key sizes, build 512, then if works, build 1024...4096...

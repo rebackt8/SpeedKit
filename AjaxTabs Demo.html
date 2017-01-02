@@ -1,0 +1,62 @@
+<style>
+span{
+position:absolute;
+left:0;top:0;
+height:70;
+background:yellow;
+width:80%;
+text-align:center;
+margin:0 10%;
+}
+
+a{
+position:relative;
+padding:20 15px;
+margin:0 20px;
+background:#aaa;
+cursor:pointer;
+font-size:27px;
+}
+
+#content{
+position:absolute;
+top:80;left:0;right:0;bottom:0;
+background:#11dd88;
+}
+</style>
+
+<input id=test type=button value="Test">
+
+<input id=OneLoad type=button value="OneLoad">
+
+<div>
+	<span>
+		<a data-i="0">Article A</a>
+		<a data-i="1">Article B</a>
+		<a data-i="2">Article C</a>
+		<a data-i="3">Article D</a>
+		<a data-i="4">Article E</a>
+	</span>
+
+	<div id="content">
+
+	</div>
+</div>
+
+<script src="../../Ajax.js"></script>
+<script>
+var tabs = document.querySelectorAll("a"),C=document.getElementById("content");
+
+var x= Ajax.set(function(r){C.innerHTML=r;},"Tabs");
+var f= Ajax.vary(x,"n");
+
+tabs.forEach(function(t){t.addEventListener("click",function(){f(t.dataset.i)})});
+
+
+var one = document.getElementById("OneLoad");
+	
+	var X= Ajax.set(function(r){C.innerHTML=r},"Tabs",{n:2});
+	one.addEventListener("click",function(){
+		X.go(1);
+	});
+</script>

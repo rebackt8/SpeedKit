@@ -1,0 +1,13 @@
+<input type="search" placeholder="Search" onkeyup="Dom.search()">
+<div id="results"><span>4</span></div>
+
+<script>
+var x=new XMLHttpRequest;
+	x.onload=function(){document.getElementById("results").innerHTML=x.response;};
+
+var Dom={};
+Dom.search=function(){
+	var e=event.target;
+	(e['on'+event.type]=function(){x.open("GET","dom-search.php?q="+e.value);x.send()})();
+}
+</script>

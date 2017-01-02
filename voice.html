@@ -1,0 +1,27 @@
+What should I say?: <input id="word" type="text" placeholder="Word" value="">
+<input id="go" type="button" value="Go!">
+<br>
+<div id="article"></div>
+
+<script>
+var w=document.getElementById('word'),
+	x=new XMLHttpRequest,
+	g=function(){
+		x.open('GET',"voice.php?word="+w.value,true);
+		x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		x.send();
+	};
+
+document.getElementById('go').addEventListener("click",g);
+x.addEventListener("load",function(){document.getElementById('article').innerHTML=this.response});
+
+var Dom=new(function(){
+	this.ajax=null;
+
+	this.speak=function(){
+		var e=event.target,d=e.dataset,t=d.text||document.querySelector(d.read).innerHTML,u=new SpeechSynthesisUtterance(t);
+		(e.onclick=function(){speechSynthesis.speak(u)})();
+	}
+
+});
+</script>
