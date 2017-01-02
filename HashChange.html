@@ -1,0 +1,30 @@
+<a href="#apple">APPLE</a>
+<a href="#banana">BANANA</a>
+<a href="#carrot">CARROT</a>
+
+<script>
+if ("onhashchange" in window) {
+    console.log("The browser supports the hashchange event!");
+}
+
+window.onhashchange = function(){
+	console.log("Current Hash: "+location.hash);
+	console.log("From: "+getHash(event.oldURL)+" to: "+getHash(event.newURL));
+};
+
+
+if(!window.HashChangeEvent)(function(){
+	var lastURL=document.URL;
+	window.addEventListener("hashchange",function(event){
+		Object.defineProperty(event,"oldURL",{enumerable:true,configurable:true,value:lastURL});
+		Object.defineProperty(event,"newURL",{enumerable:true,configurable:true,value:document.URL});
+		lastURL=document.URL;
+	});
+}());
+
+function getHash(url){
+	var i=url.lastIndexOf('#');
+	return ++i?url.substr(i):''
+
+}
+</script>

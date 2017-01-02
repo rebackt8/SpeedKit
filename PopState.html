@@ -1,0 +1,59 @@
+<div>
+	<input id="textVal" type="text" value="content">
+	<input id="trig" type="button" value="Go">
+</div>
+<div id="content"></div>
+
+
+<script>
+var ajax= function(url,cb){
+	var x=new XMLHttpRequest;
+	x.addEventListener("load",function(){
+		cb(x.response);
+		history.pushState(txt.value,'',txt.value);
+	});
+
+	x.open('GET',url,true);
+	x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	x.send();
+}
+
+var trig=document.getElementById('trig'),
+	txt=document.getElementById('textVal');
+	main=document.getElementById('content');
+
+trig.addEventListener("click",function(){
+	ajax("demo.php?t="+txt.value, function(r){main.innerHTML=r});
+});
+
+onpopstate = function(e){
+    if(e.state){
+        main.innerHTML = e.state;
+        document.title = e.state;
+    }
+};
+var UI=new(function(){
+	var _=this,
+		loc=['home'];
+	var map={
+		home:{},
+		portfolio:{
+			performance:{},
+			summary:{}
+		}
+	
+	};
+	this.nav=function(name,level){
+		//console.log(loc);
+		level=level||loc.length-1;
+		loc[level]=name;
+		console.log(loc);
+		//alert(123)
+	};
+
+});
+
+UI.nav("portfolio");
+UI.nav("performance",1);
+
+</script>
